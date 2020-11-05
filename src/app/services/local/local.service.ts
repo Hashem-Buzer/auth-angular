@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import Swal from 'sweetalert2';
-import { CookieService } from 'ngx-cookie-service';
+import { Injectable } from "@angular/core";
+import Swal from "sweetalert2";
+import { CookieService } from "ngx-cookie-service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class LocalService {
   constructor(private cookie: CookieService) {}
@@ -12,7 +12,7 @@ export class LocalService {
     var illegalChars = /^[a-zA-Z0-9\-\_\.]+$/; // allow letters, numbers, and underscores
 
     if (username.length < 5 || username.length > 15) {
-      return 'Username must have 5-15 characters';
+      return "Username must have 5-15 characters";
     } else if (!illegalChars.test(username)) {
       return 'Please enter valid Username. Must contain (" - " or " _ " or " . ")';
     } else {
@@ -25,7 +25,7 @@ export class LocalService {
     if (pass.match(passw)) {
       return true;
     } else {
-      return 'Password should be between (6 and 14) and contains (at least one numeric digit, one uppercase and one lowercase letter)';
+      return "Password should be between (6 and 14) and contains (at least one numeric digit, one uppercase and one lowercase letter)";
     }
   }
 
@@ -40,10 +40,14 @@ export class LocalService {
   }
 
   setToken(token) {
-    return this.cookie.set('Token', token);
+    return this.cookie.set("Token", token);
   }
 
   getToken() {
-    return this.cookie.get('Token');
+    return this.cookie.get("Token");
+  }
+
+  destroyToken() {
+    return this.cookie.delete("Token");
   }
 }
