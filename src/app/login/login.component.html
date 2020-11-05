@@ -18,7 +18,20 @@
           formControlName="password"
         />
       </div>
-      <button type="submit" class="btn btn-primary">login</button>
+      <div class="row">
+        <div class="col-4">
+          <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+        <div class="col-8 text-right">
+          <small
+            id="cta"
+            [routerLink]="['/signup']"
+            routerLinkActive="router-link-active"
+          >
+            Don't have an account?
+          </small>
+        </div>
+      </div>
     </form>
   </div>
 </div>

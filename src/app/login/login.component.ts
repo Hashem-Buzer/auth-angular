@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { HttpService } from '../services/http/http.service';
 import { LocalService } from '../services/local/local.service';
 
@@ -16,8 +15,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private http: HttpService,
-    private local: LocalService,
-    private cookie: CookieService
+    private local: LocalService
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +45,7 @@ export class LoginComponent implements OnInit {
       if (!data['token']) {
         return this.local.swal('error', 'Oops!!', data['msg'], 3000, false);
       } else {
-        this.cookie.set('Token', data['token']);
+        this.local.setToken(data['token']);
         this.router.navigate(['']);
       }
     });

@@ -27,7 +27,20 @@
           formControlName="confirmPassword"
         />
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <div class="row">
+        <div class="col-4">
+          <button type="submit" class="btn btn-primary">Sign up</button>
+        </div>
+        <div class="col-8 text-right">
+          <small
+            id="cta"
+            [routerLink]="['/login']"
+            routerLinkActive="router-link-active"
+          >
+            Already have an account?
+          </small>
+        </div>
+      </div>
     </form>
   </div>
 </div>

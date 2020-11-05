@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocalService {
-  constructor() {}
+  constructor(private cookie: CookieService) {}
 
   userNameValidator(username) {
     var illegalChars = /^[a-zA-Z0-9\-\_\.]+$/; // allow letters, numbers, and underscores
@@ -36,5 +37,13 @@ export class LocalService {
       timer: timer,
       showConfirmButton: scb,
     });
+  }
+
+  setToken(token) {
+    return this.cookie.set('Token', token);
+  }
+
+  getToken() {
+    return this.cookie.get('Token');
   }
 }
