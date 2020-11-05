@@ -66,6 +66,7 @@ export class SignupComponent implements OnInit {
   }
 
   SignUp() {
+    this.user.value.username = this.user.value.username.toLowerCase();
     this.http.SignUp(this.user.value).subscribe((data) => {
       if (!data["token"]) {
         return this.local.swal("error", "Oops!!", data["msg"], 3000, false);
