@@ -29,6 +29,14 @@ export class LocalService {
     }
   }
 
+  emailValidator(email) {
+    var emailValidator = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (!emailValidator.test(email)) {
+      return "Invalid email address!!";
+    }
+    return true;
+  }
+
   swal(icon, title, text, timer, scb) {
     return Swal.fire({
       icon: icon,

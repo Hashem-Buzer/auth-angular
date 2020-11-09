@@ -21,6 +21,7 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
     this.user = new FormGroup({
       username: new FormControl(null),
+      email: new FormControl(null),
       password: new FormControl(null),
       confirmPassword: new FormControl(null),
     });
@@ -30,6 +31,8 @@ export class SignupComponent implements OnInit {
     if (
       this.user.value.username === "" ||
       this.user.value.username === null ||
+      this.user.value.email === "" ||
+      this.user.value.email === null ||
       this.user.value.password === "" ||
       this.user.value.password === null ||
       this.user.value.confirmPassword === "" ||
@@ -52,12 +55,17 @@ export class SignupComponent implements OnInit {
       );
     } else {
       var uName = this.local.userNameValidator(this.user.value.username);
+      var email = this.local.emailValidator(this.user.value.email);
       var pass = this.local.passwordValidator(this.user.value.password);
       if (uName === true) {
-        if (pass === true) {
-          return this.SignUp();
+        if (email === true) {
+          if (pass === true) {
+            return this.SignUp();
+          } else {
+            return this.local.swal("warning", "Not Match!!", pass, 3000, false);
+          }
         } else {
-          return this.local.swal("warning", "Not Match!!", pass, 3000, false);
+          return this.local.swal("warning", "Not Match!!", email, 3000, false);
         }
       } else {
         return this.local.swal("warning", "Not Match!!", uName, 3000, false);
@@ -67,13 +75,21 @@ export class SignupComponent implements OnInit {
 
   SignUp() {
     this.user.value.username = this.user.value.username.toLowerCase();
-    this.http.SignUp(this.user.value).subscribe((data) => {
-      if (!data["token"]) {
-        return this.local.swal("error", "Oops!!", data["msg"], 3000, false);
-      } else {
-        this.local.setToken(data["token"]);
-        this.router.navigate([""]);
-      }
-    });
+    this.user.value.email = this.user.value.email.toLowerCase();
+
+    this.http
+      .SignUp({
+        username: "hashem-buzer",
+        email: "hbuzer98@gmail.com",
+        password: "Hashem123",
+      })
+      .subscribe((data) => {
+        if (!data["token"]) {
+          return this.local.swal("error", "Oops!!", data["msg"], 3000, false);
+        } else {
+          this.local.setToken(data["token"]);
+          this.router.navigate([""]);
+        }
+      });
   }
 }
