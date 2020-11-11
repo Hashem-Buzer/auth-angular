@@ -77,19 +77,13 @@ export class SignupComponent implements OnInit {
     this.user.value.username = this.user.value.username.toLowerCase();
     this.user.value.email = this.user.value.email.toLowerCase();
 
-    this.http
-      .SignUp({
-        username: "hashem-buzer",
-        email: "hbuzer98@gmail.com",
-        password: "Hashem123",
-      })
-      .subscribe((data) => {
-        if (!data["token"]) {
-          return this.local.swal("error", "Oops!!", data["msg"], 3000, false);
-        } else {
-          this.local.setToken(data["token"]);
-          this.router.navigate([""]);
-        }
-      });
+    this.http.SignUp(this.user.value).subscribe((data) => {
+      if (!data["token"]) {
+        return this.local.swal("error", "Oops!!", data["msg"], 3000, false);
+      } else {
+        this.local.setToken(data["token"]);
+        this.router.navigate([""]);
+      }
+    });
   }
 }
