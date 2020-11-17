@@ -8,9 +8,11 @@ import { environment } from "../../../environments/environment";
 })
 export class HttpService {
   base_url;
+  token;
 
   constructor(private http: HttpClient, private local: LocalService) {
     this.base_url = environment.ApiKey;
+    this.token = this.local.getToken();
   }
 
   SignUp(user) {
@@ -22,11 +24,9 @@ export class HttpService {
   }
 
   isLogged() {
-    let token = this.local.getToken();
-
-    if (token) {
+    if (this.token) {
       return this.http.get(`${this.base_url}user/logged`, {
-        headers: { authorization: "Bearer " + token },
+        headers: { authorization: `Bearer ${this.token}` },
       });
     } else {
       return false;
@@ -35,5 +35,17 @@ export class HttpService {
 
   Logout() {
     return this.local.destroyToken();
+  }
+
+  passCode(email) {
+    console.log("HTTP email===> ", email);
+
+    return this.http.post(`${this.base_url}send-passCode`, { email });
+  }
+
+  confirmPassCode(email, code) {
+    console.log("HTTP code===> ", code);
+
+    return this.http.post(`${this.base_url}confirm-passCode`, { email, code });
   }
 }

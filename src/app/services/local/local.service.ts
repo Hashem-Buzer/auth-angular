@@ -58,4 +58,36 @@ export class LocalService {
   destroyToken() {
     return this.cookie.delete("Token");
   }
+
+  resetPassSwal(title, input, button) {
+    return new Promise((resolve, reject) => {
+      Swal.fire({
+        title: title,
+        input: input,
+        inputAttributes: {
+          autocapitalize: "off",
+        },
+        showCancelButton: true,
+        confirmButtonText: button,
+        showLoaderOnConfirm: true,
+        preConfirm: (res) => {
+          console.log("Email==> ", res);
+          resolve(res);
+
+          // .catch((error) => {
+          //   Swal.showValidationMessage(`Request failed: ${error}`);
+          // });
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+      });
+      // console.log("result===>", result);
+
+      // if (result.isConfirmed) {
+      //   Swal.fire({
+      //     title: `${result.value.login}'s avatar`,
+      //     imageUrl: result.value.avatar_url,
+      //   });
+      // }
+    });
+  }
 }
