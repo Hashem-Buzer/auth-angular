@@ -44,8 +44,13 @@ export class HttpService {
   }
 
   confirmPassCode(email, code) {
-    console.log("HTTP code===> ", code);
-
     return this.http.post(`${this.base_url}confirm-passCode`, { email, code });
+  }
+
+  changePassword(email, password) {
+    return this.http.post(`${this.base_url}reset-password`, {
+      email,
+      password,
+    });
   }
 }

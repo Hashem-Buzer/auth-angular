@@ -24,14 +24,15 @@
         </div>
         <div class="col-8 text-right">
           <small
-            id="cta"
+            class="cta"
             [routerLink]="['/signup']"
             routerLinkActive="router-link-active"
           >
-            Don't have an account?
+            Don't have an account ?
           </small>
-          <small (click)="sendPassCode()">
-            pass code
+          <br />
+          <small class="cta" (click)="sendPassCode()">
+            Forgot password ?
           </small>
         </div>
       </div>

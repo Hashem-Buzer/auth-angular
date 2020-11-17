@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import Swal from "sweetalert2";
 import { CookieService } from "ngx-cookie-service";
+import $ from "jquery";
 
 @Injectable({
   providedIn: "root",
@@ -21,7 +22,7 @@ export class LocalService {
   }
 
   passwordValidator(pass) {
-    var passw = /^[A-Za-z]\w{5,14}$/;
+    var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
     if (pass.match(passw)) {
       return true;
     } else {
@@ -66,28 +67,48 @@ export class LocalService {
         input: input,
         inputAttributes: {
           autocapitalize: "off",
+          required: "true",
         },
-        showCancelButton: true,
         confirmButtonText: button,
+        showCancelButton: true,
         showLoaderOnConfirm: true,
         preConfirm: (res) => {
-          console.log("Email==> ", res);
+          // console.log("Res==> ", res);
           resolve(res);
-
-          // .catch((error) => {
-          //   Swal.showValidationMessage(`Request failed: ${error}`);
-          // });
         },
-        allowOutsideClick: () => !Swal.isLoading(),
+        allowOutsideClick: () => false,
       });
-      // console.log("result===>", result);
+    });
+  }
 
-      // if (result.isConfirmed) {
-      //   Swal.fire({
-      //     title: `${result.value.login}'s avatar`,
-      //     imageUrl: result.value.avatar_url,
-      //   });
-      // }
+  changePasswordSwal(title, button) {
+    return new Promise((resolve) => {
+      Swal.fire({
+        title: title,
+        html:
+          '<input type="password" id="swal-input1" class="swal2-input" placeholder="New Password">' +
+          '<input type="password" id="swal-input2" class="swal2-input" placeholder="Confirm New Password">',
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: button,
+        allowOutsideClick: () => false,
+        preConfirm: () => {
+          const passwords = {
+            pass1: $("#swal-input1").val(),
+            pass2: $("#swal-input2").val(),
+          };
+
+          let validation = this.passwordValidator(passwords.pass1);
+          if (validation !== true) {
+            Swal.showValidationMessage(`${validation}`);
+          }
+          if (passwords.pass1 !== passwords.pass2) {
+            Swal.showValidationMessage("Passwords should be the same!!");
+          }
+
+          resolve(passwords.pass1);
+        },
+      });
     });
   }
 }

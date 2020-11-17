@@ -57,15 +57,13 @@ export class LoginComponent implements OnInit {
       "email",
       "Send Code"
     );
-    console.log("EMAIL===> ", email);
+    // console.log("EMAIL===> ", email);
 
     await this.http.passCode(email).subscribe((data) => {
-      console.log("Data passcode===> ", data);
-      // data["status"]
-      //   ? this.local.swal("success", data["msg"], null, 3000, false)
-      //   : this.local.swal("error", data["msg"], null, 3000, false);
+      // console.log("Data passcode===> ", data);
+      !data["status"] &&
+        this.local.swal("error", data["msg"], null, 3000, false);
     });
-    // console.log("Email check as var====> ", email);
 
     if (email) {
       const code = await this.local.resetPassSwal(
@@ -73,14 +71,33 @@ export class LoginComponent implements OnInit {
         "text",
         "Check Code"
       );
-      console.log("CODE===> ", code);
+      // console.log("CODE===> ", code);
 
-      await this.http.confirmPassCode(email, code).subscribe((data) => {
-        console.log("Data passcode===> ", data);
-        // data["status"]
-        //   ? this.local.swal("success", data["msg"], null, 3000, false)
-        //   : this.local.swal("error", data["msg"], null, 3000, false);
+      this.http.confirmPassCode(email, code).subscribe((data) => {
+        // console.log("Data passcode===> ", data);
+        !data["status"] &&
+          this.local.swal("error", data["msg"], null, 3000, false);
       });
+
+      if (code) {
+        const changePassword = await this.local.changePasswordSwal(
+          "Enter New Password",
+          "Change password"
+        );
+        // console.log("Change Pass===> ", changePassword);
+
+        this.http.changePassword(email, changePassword).subscribe((data) => {
+          // console.log("DATA change pass===> ", data);
+          data["status"] &&
+            this.local.swal(
+              "success",
+              "Password Changed",
+              data["msg"],
+              3000,
+              false
+            );
+        });
+      }
     }
   }
 }
