@@ -10,9 +10,9 @@ export class LocalService {
   constructor(private cookie: CookieService) {}
 
   userNameValidator(username) {
-    var illegalChars = /^[a-zA-Z0-9\-\_\.]+$/; // allow letters, numbers, and underscores
+    var illegalChars = /^(?=[a-zA-Z0-9._\-]{5,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/g; // allow letters, numbers, and underscores
 
-    if (username.length < 5 || username.length > 15) {
+    if (username.length < 7 || username.length > 15) {
       return "Username must have 5-15 characters";
     } else if (!illegalChars.test(username)) {
       return 'Please enter valid Username. Must contain (" - " or " _ " or " . ")';
