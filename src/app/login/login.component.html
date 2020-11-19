@@ -17,6 +17,9 @@
           placeholder="Password"
           formControlName="password"
         />
+        <small class="cta" (click)="sendPassCode()">
+          Forgot password ?
+        </small>
       </div>
       <div class="row">
         <div class="col-4">
@@ -29,10 +32,6 @@
             routerLinkActive="router-link-active"
           >
             Don't have an account ?
-          </small>
-          <br />
-          <small class="cta" (click)="sendPassCode()">
-            Forgot password ?
           </small>
         </div>
       </div>

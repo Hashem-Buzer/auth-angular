@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
   Login() {
     this.http.Login(this.user.value).subscribe((data) => {
       if (!data["token"]) {
-        return this.local.swal("error", "Oops!!", data["msg"], 3000, false);
+        return this.local.swal("error", "Oops!!", data["msg"], 5000, false);
       } else {
         this.local.setToken(data["token"]);
         this.router.navigate([""]);
